@@ -1,7 +1,8 @@
 " Vim plugin for copying syntax highlighted code as RTF on Windows/macOS/X11
-" Last Change: 2020-07-10
-" Maintainer:	Nathan Witmer <nwitmer@gmail.com>
-" License: WTFPL
+" Orig Author: Nathan Witmer <nwitmer@gmail.com>
+" Last Change: 2020-09-09
+" By:          Wu Yongwei <wuyongwei@gmail.com>
+" License:     WTFPL
 
 if exists('g:loaded_copy_as_rtf')
   finish
@@ -37,7 +38,9 @@ elseif executable('pbcopy') && executable('textutil')
     silent exe '%!textutil -convert rtf -stdin -stdout | pbcopy'
   endfunction
 else
-  echomsg 'Cannot load copy-as-rtf plugin: unsupported platform'
+  if !exists('g:copy_as_rtf_silence_on_errors') || g:copy_as_rtf_silence_on_errors == 0
+    echomsg 'Cannot load copy-as-rtf plugin: unsupported platform'
+  endif
   finish
 endif
 

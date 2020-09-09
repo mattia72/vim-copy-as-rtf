@@ -32,6 +32,14 @@ This setting determines whether or not temporary indentation changes (see
 previous setting) are applied in the current buffer. If set to 0, the selected
 code is copied to a scratch buffer before modifying it.
 
+*g:copy_as_rtf_silence_on_errors* (default 0)
+
+This setting allows silencing the "unsupported platform" error report. By
+default, if this plugin cannot find the suitable RTF support, it will report
+an error. If set to a non-zero value, the plugin will silently quit under such
+a circumstance.
+
+
 The |:TOhtml| plugin can be also be configured to change how text is converted
 to html before being converted to RTF. To set the font to match your MacVim or
 terminal settings, use this (undocumented) setting:
