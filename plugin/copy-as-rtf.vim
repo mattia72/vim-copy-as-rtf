@@ -24,10 +24,31 @@ if !exists('g:copy_as_rtf_preserve_indent')
   let g:copy_as_rtf_preserve_indent = 0
 endif
 
+function! g:ExecuteInDefaultShell(command)
+  let l:save_settings_list=[&shell, &shellquote, &shellpipe, &shellxquote, &shellcmdflag, &shellredir]
+  " set back to default...
+	set shellquote& 
+  set shellpipe&
+  set shellxquote&
+  set shellcmdflag&
+  set shellredir&
+  set shell&
+  "echo a:command
+  execute a:command
+  let &shell        = l:save_settings_list[0]
+  let &shellquote   = l:save_settings_list[1]
+  let &shellpipe    = l:save_settings_list[2]
+  let &shellxquote  = l:save_settings_list[3]
+  let &shellcmdflag = l:save_settings_list[4]
+  let &shellredir   = l:save_settings_list[5]
+  let l:save_settings_list=[]
+endfunction
+
 if has('win32') && has('clipboard')
   function s:Copy_as_RTF()
     %yank *
-    silent exec '!start /min powershell -noprofile "gcb | scb -as"'
+    "it works only called from cmd, in powershell 5
+    call g:ExecuteInDefaultShell('!start /min powershell -noprofile "gcb | scb -as"')
   endfunction
 elseif has('x11') && executable('xclip')
   function s:Copy_as_RTF()
